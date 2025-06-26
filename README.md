@@ -1,34 +1,36 @@
-# S210-10980HK(10880H)-BCM94360Z4-OpenCore-Sonoma，支持Monterey、Ventura、Sonoma
+# S210-10980HK(10880H)-BCM94360Z4-OpenCore-Sonoma，支持Sonoma、Sequioa、Tahoe
 
 ## 目前来说，已经基本没啥可完善的地方了，因此以后的更新都是常规更新，即OpenCore和Kext更新
 
 # 注意：
 + **csr-active-config改为通过`ToggleSipEntry.efi`开关，关闭状态值改为`7F0A0000`，可以在`UEFI`-`Drivers`-`ToggleSipEntry.efi`的`Arguments`里面设置，目前是`0xA7F`，计算后就是`7F0A0000`**
-+ **如果你在macOS 13 Ventrua中更新系统时，每次的都必须下载全量的更新包，可以试试将 Kexts 中的 BlueToolFixup.kext 临时禁用，然后重启在更新。**
 + **由于我的BCM94360Z4是完全免驱的，所以我只启用AirportBrcmFixup来修改网卡地区，你需要根据你的硬件来启用BrcmPatchRAM**
 + **如果禁用 BlueToolFixup.kext 后重启，蓝牙能正常工作，那么可以把改kext从配置文件中删除**
 + **如果禁用 BlueToolFixup.kext 后重启，蓝牙能正常工作，那么可以试着将 BrcmFirmwareData.kext 以及 BrcmPatchRAM3.kext 禁用。如果禁用这两个kext后重启蓝牙仍然能正常工作，则可以直接将蓝牙相关的驱动完全移除。**
 + **如果禁用 BlueToolFixup.kext 后重启，蓝牙不能正常工作，那么在更新完成后，启用该kext**
 
-# 关于Sonoma
+# 关于Sonoma、Sequioa
 + **Sonoma本身去掉了以前没有问题的博通网卡的支持，只能用OCLP打补丁来恢复支持，但这么做有副作用：不能增量更新、每次更新后重新打补丁**
-+ **Sonoma通过OCLP项目可以驱动博通网卡，但是存在限制：OCLP项目组支持的网卡的设备ID（Hackintool - PCIe - 设备）为`0x43BA`、`0x43A3`、`0x43A0`、`0x4331`、`0x4353`的才能驱动**
++ **Sonoma通过OCLP项目可以驱动原可以驱动的网卡**
 + **为方便OCLP给Sonoma打补丁，默认关闭了SIP，禁用了Secure Boot Model**
 + **OCLP使用的软件`OpenCore-Patcher`可以下载Sonoma的安装包，下载会自动安装到系统的应用程序里面**
 + **`OpenCore-Patcher`下载地址：[OpenCore-Patcher](https://github.com/dortania/OpenCore-Legacy-Patcher/releases)。**
 + **OCLP驱动方法，请移步[使用OCLP在macOS Sonoma中驱动博通网卡](https://bbs.pcbeta.com/viewthread-1975133-1-1.html)，请仔细阅读**
 + **OCLP驱动后的网卡若速率不达标，请移步[解决sonoma下博通网卡OCLP补丁后仍然无法驱动以及驱动后速率低的问题，送给需要的人](https://bbs.pcbeta.com/viewthread-1975162-1-1.html)**
 
-# 2023.10.09说明：DUANG的音效是否播放，取决于NVRAM中的`StartupMute`是否为`00`。这个值由`系统设置`-`声音`-`启动时播放声音`决定。如该选项开启，则启动时播放DUANG的声音，关闭则不播放。如果要强制播放，则把config.plist中的`UEFI`-`PlayChime`改为`Enable`。DUANG的音效只能由3.5mm耳机孔输出，hdmi或dp无法输出。
 
-# 2021.12.16重要说明：今天查电源日志的时候，发现每隔两小时会唤醒一次，唤醒原因似乎为【唤醒以供以网络访问】和另一个RTC任务（不确定RTC任务是否就是因为开了唤醒以供网络访问出现的），因此需要在电源管理里面把“唤醒以供以太网访问”、断电后自动启动、启用电能小憩都关掉。
+# 关于Tahoe
++ 黑苹果终点站
++ 目前博通无线网卡无解
++ Beta2删除了AppleHDA驱动，需要通过[OCLP-MOD](https://bbs.pcbeta.com/viewthread-2046194-1-1.html)修复
++ Macmini8,1机型不在支持列表，因此机型换成了MacBookPro16,2，如果你用了USBMap.kext或者USBPorts.kext，需要修改机型
++ 使用了USBMap.kext或者USBPorts.kext，请参考[修复USBMap.kext在Tahoe无法使用问题](https://bbs.pcbeta.com/forum.php?mod=viewthread&tid=2045214&highlight=USB)
++ 为了在Tahoe下驱动Sequioa可用的网卡，开启了`DisableIoMapper`
++ Tahoe下，USB端口限制补丁无效，最多只能使用15个端口
 
-# i211AT网卡在最新的Ventura、Monterey下目前免驱，因此删除了[AppleIGB](https://github.com/donatengit/AppleIGB)驱动，同时不再需要刷成210，直接i211即可（或者可以试试用efi中提供的i211网卡固件重刷一次）。
+基于opencore1.0.5开发版
 
-# 从macOS 12.3开始，[不需要SSDT-PLUG.aml](https://dortania.github.io/OpenCore-Post-Install/universal/pm.html#enabling-x86platformplugin)，因此本EFI`默认为禁用`状态。如果你系统版本低于12.3，请启用该ACPI补丁。
-
-基于opencore0.9.7正式版
-
++ 2025.06.26 机型换成MacBookPro16,2，如果你用了USBMap.kext或者USBPorts.kext，需要修改机型；支持安装Tahoe
 + 2023.12.25 使用`AppleIGB.kext`修复i211网卡在macOS Monterey下无法使用的问题
 + 2023.10.09 声卡id由11改为37，解决插入耳机后微信等软件声音小问题；增加进入OC选择界面时的DUANG的音效（DUANG的音效只能由3.5mm耳机孔输入，hdmi或dp无法输出）
 + 2023.10.07 更新AirportBrcpFixup、RestrictEvents到最新
@@ -81,9 +83,8 @@
 机型S210，i9 10980hk，64G，4K显示器（mini dp）+4K显示（hdmi 2.0），声卡为alc235（老板说是alc 233，但声卡id0x10ec0235即实际alc 235）
 
 ### 2、工作情况
-以下均基于Ventrua测试
+以下均基于Sequioa测试
 
-①、全部正常：
 DP、HDMI2.0（单DP、单HDMI、DP+HDMI）
 睡眠唤醒
 原生电源管理

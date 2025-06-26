@@ -4,30 +4,38 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Resources/en.lproj/InfoPlist.strings</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			MiLKDDnrUKr4EmuvhS5VQwxHGK8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
+		<key>Resources/Supporting Files/HoRNDIS-Info.plist</key>
+		<data>
+		xGGXN+0gv71H8Fo6R0RHG5TRnG0=
+		</data>
+		<key>Resources/Supporting Files/HoRNDIS-Prefix.pch</key>
+		<data>
+		qdkruPAm8dyBg5sp5T1LlXtZhyQ=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Resources/en.lproj/InfoPlist.strings</key>
+		<key>Resources/Supporting Files/HoRNDIS-Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MiLKDDnrUKr4EmuvhS5VQwxHGK8=
+			xGGXN+0gv71H8Fo6R0RHG5TRnG0=
 			</data>
 			<key>hash2</key>
 			<data>
-			Oc8u4Ht7Mz58F50L9NeYpbcq9qTlhPUeZCcDu/pPyCg=
+			rDSqfdVhGM5TD1Cxo2Sl/z5F1uRwudO6eFP5Jx6pkBA=
 			</data>
-			<key>optional</key>
-			<true/>
+		</dict>
+		<key>Resources/Supporting Files/HoRNDIS-Prefix.pch</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qdkruPAm8dyBg5sp5T1LlXtZhyQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			zdCXpGreYTTjuN3T97Nc0/r4aBCqSzcEQY2ew9Xh1Fk=
+			</data>
 		</dict>
 	</dict>
 	<key>rules</key>
