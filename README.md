@@ -1,35 +1,37 @@
-# S210-10980HK(10880H)-BCM94360Z4-OpenCore-Sonoma，支持Sonoma、Sequioa、Tahoe
+# S210-10980HK(10880H)-OpenCore-Tahoe，支持Sequioa、Tahoe
 
-## 目前来说，已经基本没啥可完善的地方了，因此以后的更新都是常规更新，即OpenCore和Kext更新
-
-# 注意：
-+ **csr-active-config改为通过`ToggleSipEntry.efi`开关，关闭状态值改为`7F0A0000`，可以在`UEFI`-`Drivers`-`ToggleSipEntry.efi`的`Arguments`里面设置，目前是`0xA7F`，计算后就是`7F0A0000`**
-+ **由于我的BCM94360Z4是完全免驱的，所以我只启用AirportBrcmFixup来修改网卡地区，你需要根据你的硬件来启用BrcmPatchRAM**
-+ **如果禁用 BlueToolFixup.kext 后重启，蓝牙能正常工作，那么可以把改kext从配置文件中删除**
-+ **如果禁用 BlueToolFixup.kext 后重启，蓝牙能正常工作，那么可以试着将 BrcmFirmwareData.kext 以及 BrcmPatchRAM3.kext 禁用。如果禁用这两个kext后重启蓝牙仍然能正常工作，则可以直接将蓝牙相关的驱动完全移除。**
-+ **如果禁用 BlueToolFixup.kext 后重启，蓝牙不能正常工作，那么在更新完成后，启用该kext**
-
-# 关于Sonoma、Sequioa
-+ **Sonoma本身去掉了以前没有问题的博通网卡的支持，只能用OCLP打补丁来恢复支持，但这么做有副作用：不能增量更新、每次更新后重新打补丁**
-+ **Sonoma通过OCLP项目可以驱动原可以驱动的网卡**
-+ **为方便OCLP给Sonoma打补丁，默认关闭了SIP，禁用了Secure Boot Model**
-+ **OCLP使用的软件`OpenCore-Patcher`可以下载Sonoma的安装包，下载会自动安装到系统的应用程序里面**
-+ **`OpenCore-Patcher`下载地址：[OpenCore-Patcher](https://github.com/dortania/OpenCore-Legacy-Patcher/releases)。**
-+ **OCLP驱动方法，请移步[使用OCLP在macOS Sonoma中驱动博通网卡](https://bbs.pcbeta.com/viewthread-1975133-1-1.html)，请仔细阅读**
-+ **OCLP驱动后的网卡若速率不达标，请移步[解决sonoma下博通网卡OCLP补丁后仍然无法驱动以及驱动后速率低的问题，送给需要的人](https://bbs.pcbeta.com/viewthread-1975162-1-1.html)**
+**Tahoe是黑果的最后一场狂欢了，完善各个驱动，特别是博通无线网卡，只能慢慢等，因为OCLP的核心成员被苹果收编了，进度很慢。**
 
 
-# 关于Tahoe
-+ 黑苹果终点站
-+ 目前博通无线网卡无解
-+ Beta2删除了AppleHDA驱动，需要通过[OCLP-MOD](https://bbs.pcbeta.com/viewthread-2046194-1-1.html)修复
-+ Macmini8,1机型不在支持列表，因此机型换成了MacBookPro16,2，如果你用了USBMap.kext或者USBPorts.kext，需要修改机型
-+ 使用了USBMap.kext或者USBPorts.kext，请参考[修复USBMap.kext在Tahoe无法使用问题](https://bbs.pcbeta.com/forum.php?mod=viewthread&tid=2045214&highlight=USB)
-+ 为了在Tahoe下驱动Sequioa可用的网卡，开启了`DisableIoMapper`
-+ Tahoe下，USB端口限制补丁无效，最多只能使用15个端口
 
-基于opencore1.0.5开发版
+## SIP状态切换说明
 
+**csr-active-config改为通过`ToggleSipEntry.efi`开关，关闭状态值改为`7F0A0000`，可以在`UEFI`-`Drivers`-`ToggleSipEntry.efi`的`Arguments`里面设置，目前是`0xA7F`，计算后就是`7F0A0000`**。
+
+**如果要切换SIP的开关状态，则在选择启动项时，按空格键，然后移动到Toggle SIP上，按回车。`Toggle SIP (Disable)`是关闭SIP状态，`Toggle SIP (Enable)`是启用SIP状态**
+
+
+
+## 目录说明
+
++ `BCM94360Z4`目录下是适用于`BCM94360Z4`网卡的EFI，这个网卡的蓝牙免驱，因此没有蓝牙相关驱动。
+  + `Sequioa`下 WIFI 需要通过 `OCLP-Mod` 打补丁
+  + `Tahoe`下目前 WIFI 无解
++ `Intel AX210`目录下是适用于`Intel AX210`网卡的EFI，应该也适用于`9260AC`、`AX201`等网卡，包含蓝牙、WIFI驱动。
+  + `Sequioa`和`Tahoe`下蓝牙都正常工作
+  + `Sequioa`下 WIFI 使用`AirportItlwm_Ventura`驱动，需通过`OCLP-Mod`打补丁，使用体验和博通无限网卡差不多，通过系统的WIFI直接进行管理
+  + `Tahoe`下使用的`itlwm`驱动，其网络被识别为`有线连接`，因此**不能获取位置信息，不能进行地图定位**
+  + `Tahoe`下 WIFI 无需打驱动，需要使用`HeliPort`来管理，`HeliPort`可以放到登录项中进行开机自启
+  + Intel的 WIFI 连接速率都比较低，只是能用的状态（同一位置同热点，94360z4有1300Mbps的速率，AX210只有260Mbps）
++ `OCLP-Mod`下载地址：https://github.com/laobamac/OCLP-Mod/releases ，选第一个，自行解决出墙问题
+
+
+
+## 更新日志
+
+基于opencore1.0.5正式版
+
++ 2025.10.23 区分`BCM94360z4`和`Intel AX210`网卡，`Intel AX210`在`Tahoe`可用 WIFI；精简Kexts，`BCM94360z4`移除蓝牙相关驱动
 + 2025.06.26 机型换成MacBookPro16,2，如果你用了USBMap.kext或者USBPorts.kext，需要修改机型；支持安装Tahoe
 + 2023.12.25 使用`AppleIGB.kext`修复i211网卡在macOS Monterey下无法使用的问题
 + 2023.10.09 声卡id由11改为37，解决插入耳机后微信等软件声音小问题；增加进入OC选择界面时的DUANG的音效（DUANG的音效只能由3.5mm耳机孔输入，hdmi或dp无法输出）
@@ -78,38 +80,54 @@
 + 2021.02.24 修复在macOS 11.2.1 (20D75)中，插入ipad设备充电后出现的频繁突然断电问题
 
 ---
- 
-### 1、我的配置
-机型S210，i9 10980hk，64G，4K显示器（mini dp）+4K显示（hdmi 2.0），声卡为alc235（老板说是alc 233，但声卡id0x10ec0235即实际alc 235）
 
-### 2、工作情况
+
+
+## 安装说明
+
+
+
+### 我的配置
+
+机型S210，i9 10980hk，64G，4K显示器（mini dp）+4K显示（hdmi 2.0），声卡为alc235（老板说是alc 233，但声卡id0x10ec0235即实际alc 235），网卡为BCM94360z4
+
+
+
+### 工作情况
 以下均基于Sequioa测试
 
-DP、HDMI2.0（单DP、单HDMI、DP+HDMI）
-睡眠唤醒
-原生电源管理
-BCM94360Z4蓝牙免驱
-BCM94360Z4无线网卡免驱
-I219V（背面靠近双USB3.0的那个）
-I211AT（背面靠近电源接口的那个）
-USB（3.0、2.0、type-c）
-随航、接力、隔空投送
-耳机、麦克风、DP/HDMI音频
++ DP、HDMI2.0（单DP、单HDMI、DP+HDMI）
 
-### 3、BIOS设置
++ 睡眠唤醒
+
++ 原生电源管理
+
++ BCM94360Z4蓝牙免驱
+
++ BCM94360Z4无线网卡通过OCLP打补丁后正常驱动
+
++ I219V（背面靠近双USB3.0的那个）
+
++ I211AT（背面靠近电源接口的那个）
+
++ USB（3.0、2.0、type-c）
+
++ 随航、接力、隔空投送
+
++ 耳机、麦克风、DP/HDMI音频
+
+  
+
+### BIOS设置
 Boot - CSM Configuration - CSM Support [ Disable ]
 
-### 4、其他问题
-系统偏好设置 - 节能 唤醒以供网络访问，取消选中，否则睡眠后过一段时间会被唤醒
-系统偏好设置 - 节能 断点后自动启动，取消选中，这个在黑苹果上没啥用
-系统偏好设置 - 节能 中的启用电能小憩需要取消选中，否则长时间睡眠后可能崩溃
-启动时，如果出现苹果logo被压扁，尝试换一个显示器。我自己的XV273K暗影骑士，接HDMI口，启动一阶段就是扁的，进系统后正常。我的便携显示器，接的mini dp，启动过程logo都正常
-如果你觉得 关于本机 - 内存 那里显示的4根内存插槽不符合小主机的内存槽数量，可以参考 OpenCore0.6.3以上自定义内存信息设置
 
-### 5、特殊情况说明
-S210,10880H机型，声卡为alc 282，win下必须装reltek声卡驱动
-alc 282目前最接近的id为86，声卡有声音，麦克风无声；
-或者选择VoodooHDA代替AppleALC；此法存在缺陷：多个带喇叭的显示器下，只有一个显示器能发声，且睡眠唤醒后，所有显示器都不发声，但是耳麦接口都正常
 
-### 6、可以在windows中安装macos支持文件（启动转换助理的“操作”菜单中可以下载，进windows后，安装），实现类似白苹果的windows下选择启动系统功能。注意，安装后需要在c:\program files\apple software update下将bootcamp升级，否则bootcamp会错误识别所有mac磁盘都可作为macos启动。安装后，会隐藏一些磁盘，请参照[彻底解决win10开机后，D盘或者其他隐藏，每次要重新添加盘符的方法](http://www.purplestone.cn/share/2361.html)处理
+### 其他注意事项
++ 系统偏好设置 - 节能 唤醒以供网络访问，取消选中，否则睡眠后过一段时间会被唤醒
++ 系统偏好设置 - 节能 断点后自动启动，取消选中，这个在黑苹果上没啥用
++ 系统偏好设置 - 节能 中的启用电能小憩需要取消选中，否则长时间睡眠后可能崩溃
++ 启动时，如果出现苹果logo被压扁，尝试换一个显示器。我自己的XV273K暗影骑士，接HDMI口，启动一阶段就是扁的，进系统后正常。我的便携显示器，接的mini dp，启动过程logo都正常
+
+**可以在windows中安装macos支持文件（启动转换助理的“操作”菜单中可以下载，进windows后，安装），实现类似白苹果的windows下选择启动系统功能。注意，安装后需要在c:\program files\apple software update下将bootcamp升级，否则bootcamp会错误识别所有mac磁盘都可作为macos启动。安装后，会隐藏一些磁盘，请参照[彻底解决win10开机后，D盘或者其他隐藏，每次要重新添加盘符的方法](http://www.purplestone.cn/share/2361.html)处理**
 
