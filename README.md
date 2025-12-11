@@ -11,26 +11,12 @@
 **如果要切换SIP的开关状态，则在选择启动项时，按空格键，然后移动到Toggle SIP上，按回车。`Toggle SIP (Disable)`是关闭SIP状态，`Toggle SIP (Enable)`是启用SIP状态**
 
 
-
-## 目录说明
-
-+ `BCM94360Z4`目录下是适用于`BCM94360Z4`网卡的EFI，这个网卡的蓝牙免驱，因此没有蓝牙相关驱动。
-  + `Sequioa`下 WIFI 需要通过 `OCLP-Mod` 打补丁
-  + `Tahoe`下目前 WIFI 无解
-+ `Intel AX210`目录下是适用于`Intel AX210`网卡的EFI，应该也适用于`9260AC`、`AX201`等网卡，包含蓝牙、WIFI驱动。
-  + `Sequioa`和`Tahoe`下蓝牙都正常工作
-  + `Sequioa`下 WIFI 使用`AirportItlwm_Ventura`驱动，需通过`OCLP-Mod`打补丁，使用体验和博通无限网卡差不多，通过系统的WIFI直接进行管理
-  + `Tahoe`下使用的`itlwm`驱动，其网络被识别为`有线连接`，因此**不能获取位置信息，不能进行地图定位**
-  + `Tahoe`下 WIFI 无需打驱动，需要使用`HeliPort`来管理，`HeliPort`可以放到登录项中进行开机自启
-  + Intel的 WIFI 连接速率都比较低，只是能用的状态（同一位置同热点，94360z4有1300Mbps的速率，AX210只有260Mbps）
-+ `OCLP-Mod`下载地址：https://github.com/laobamac/OCLP-Mod/releases ，选第一个，自行解决出墙问题
-
-
-
 ## 更新日志
 
 基于opencore1.0.5正式版
 
++ 2025.12.11 移除`Intel AX210`，仅保留`BCM94360z4`。本次可以使用OCLP3.0打补丁，修复博通网卡问题。**本次更新，无线网卡支持Tahoe！**
+  + 英特尔无线网卡可以采用修改网卡设备id的形式，欺骗OCLP打网卡补丁，之后正常使用。
 + 2025.10.23 区分`BCM94360z4`和`Intel AX210`网卡，`Intel AX210`在`Tahoe`可用 WIFI；精简Kexts，`BCM94360z4`移除蓝牙相关驱动
 + 2025.06.26 机型换成MacBookPro16,2，如果你用了USBMap.kext或者USBPorts.kext，需要修改机型；支持安装Tahoe
 + 2023.12.25 使用`AppleIGB.kext`修复i211网卡在macOS Monterey下无法使用的问题
@@ -84,7 +70,12 @@
 
 
 ## 安装说明
-
++ 正常安装或者升级到Tahoe，之后需要参考 https://bbs.pcbeta.com/viewthread-2058963-1-1.html 自行关闭文件保险箱然后通过OCLP 3.0打补丁
++ OCLP 3.0测试版下载地址：https://nightly.link/lzhoang2801/OpenCore-Legacy-Patcher/workflows/build-app-wxpython/tahoe-patchset/OpenCore-Patcher.pkg.zip
++ KDK下载地址：
+  + 26.1对应KDK：https://gitapi.simplehac.top/https://github.com/dortania/KdkSupportPkg/releases/download/25B5062e/Kernel_Debug_Kit_26.1_build_25B5062e.dmg 对应OCLP需要下载的25B5
+  + 26.2RC对应KDK：https://github.com/dortania/KdkSupportPkg/releases/download/25C56/Kernel_Debug_Kit_26.2_25C56.dmg 对应OCLP需要下载的25C56
+  + 如果没有你需要的，你网络好的话，可以让OCLP自行下载；如果需要其他版本KDK，可以到 https://github.com/dortania/KdkSupportPkg/releases 查找
 
 
 ### 我的配置
