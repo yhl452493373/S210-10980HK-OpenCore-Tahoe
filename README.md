@@ -2,7 +2,7 @@
 
 + **Tahoe是黑果的最后一场狂欢了**
 + **2025.11.24 lzhoang2801 搞定了禁用 AMFIPass.kext，使用amfi=0x80打网卡补丁的问题，解决无线网卡问题**
-+ **2025.12.25，laobamac 搞定了使用 AMFIPass.kext 和 -amfipassbeta 打补丁后无法进系统黑屏的问题，基本趋于完善**
++ **2025.12.25 laobamac 搞定了使用 AMFIPass.kext 和 -amfipassbeta 打补丁后无法进系统黑屏的问题，基本趋于完善**
 
 ## SIP状态切换说明
 
