@@ -501,7 +501,7 @@
                     <key>Comment</key>
                     <string>V2.4.0</string>
                     <key>Enabled</key>
-                    <true/>
+                    <false/>
                     <key>ExecutablePath</key>
                     <string>Contents/MacOS/AirportItlwm</string>
                     <key>MaxKernel</key>
@@ -519,7 +519,7 @@
                     <key>Comment</key>
                     <string>V2.7.2</string>
                     <key>Enabled</key>
-                    <true/>
+                    <false/>
                     <key>ExecutablePath</key>
                     <string>Contents/MacOS/BlueToolFixup</string>
                     <key>MaxKernel</key>
@@ -573,7 +573,7 @@
                     <key>Comment</key>
                     <string>V2.5.0</string>
                     <key>Enabled</key>
-                    <true/>
+                    <false/>
                     <key>ExecutablePath</key>
                     <string>Contents/MacOS/IntelBTPatcher</string>
                     <key>MaxKernel</key>
@@ -591,7 +591,7 @@
                     <key>Comment</key>
                     <string>V2.5.0</string>
                     <key>Enabled</key>
-                    <true/>
+                    <false/>
                     <key>ExecutablePath</key>
                     <string>Contents/MacOS/IntelBluetoothFirmware</string>
                     <key>MaxKernel</key>
@@ -1141,10 +1141,6 @@
                 </dict>
                 <key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
                 <dict>
-                    <key>bluetoothExternalDongleFailed</key>
-                    <data>AA==</data>
-                    <key>bluetoothInternalControllerInfo</key>
-                    <data>AAAAAAAAAACJZTpVLv0=</data>
                     <key>boot-args</key>
                     <string>-v debug=0x100 keepsyms=1 -igfxblt -amfipassbeta</string>
                     <key>prev-lang:kbd</key>
@@ -1216,7 +1212,7 @@
                 <key>AdviseFeatures</key>
                 <false/>
                 <key>MLB</key>
-                <string>C02019802CDP8PGAD</string>
+                <string>C02131306GUP8PG8C</string>
                 <key>MaxBIOSVersion</key>
                 <false/>
                 <key>ProcessorType</key>
@@ -1230,9 +1226,9 @@
                 <key>SystemProductName</key>
                 <string>MacBookPro16,2</string>
                 <key>SystemSerialNumber</key>
-                <string>C02CPEZUML7H</string>
+                <string>C02G5MZHML7H</string>
                 <key>SystemUUID</key>
-                <string>626CDB4F-6277-4508-A185-D53F53AB63FF</string>
+                <string>4F88C830-6A2D-498C-9D58-4A100149AC7C</string>
             </dict>
             <key>UpdateDataHub</key>
             <true/>

@@ -1216,7 +1216,7 @@
                 <key>AdviseFeatures</key>
                 <false/>
                 <key>MLB</key>
-                <string>C02019802CDP8PGAD</string>
+                <string>C02121303QXP8PGCB</string>
                 <key>MaxBIOSVersion</key>
                 <false/>
                 <key>ProcessorType</key>
@@ -1230,9 +1230,9 @@
                 <key>SystemProductName</key>
                 <string>MacBookPro16,2</string>
                 <key>SystemSerialNumber</key>
-                <string>C02CPEZUML7H</string>
+                <string>C02FR2Y9ML7H</string>
                 <key>SystemUUID</key>
-                <string>626CDB4F-6277-4508-A185-D53F53AB63FF</string>
+                <string>9BE60192-0C3F-4E70-908C-9CDE29060B38</string>
             </dict>
             <key>UpdateDataHub</key>
             <true/>

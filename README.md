@@ -1,8 +1,8 @@
 # S210-10980HK(10880H)-OpenCore-Tahoe，支持Sequioa、Tahoe
 
-**Tahoe是黑果的最后一场狂欢了，完善各个驱动，特别是博通无线网卡，只能慢慢等，因为OCLP的核心成员被苹果收编了，进度很慢。**
-
-
++ **Tahoe是黑果的最后一场狂欢了**
++ **2025.11.24 lzhoang2801 搞定了禁用 AMFIPass.kext，使用amfi=0x80打网卡补丁的问题，解决无线网卡问题**
++ **2025.12.25，laobamac 搞定了使用 AMFIPass.kext 和 -amfipassbeta 打补丁后无法进系统黑屏的问题，基本趋于完善**
 
 ## SIP状态切换说明
 
@@ -13,8 +13,12 @@
 
 ## 更新日志
 
-基于opencore1.0.5正式版
+基于opencore1.0.6正式版
 
++ 2025.12.25 使用`AMFIPass.kext`，`-amfipassbeta`参数替换之前的`amfi=0x80`
+  + 增加Intel 9260AC、Intel AX200、Intel AX210、BCM94352ZE(DW1560)、BCM94360Z4 的配置文件
+  + 现在安装小米互联服务并和小米手机连接后，即使你没有摄像头，微信时也会自动调用手机摄像头了
+  + 现在todesk不会闪退，vmware fusion可以正常启动虚拟机，微软远程桌面windows app会正常申请权限，不会每次打开都提示需要麦克风权限
 + 2025.12.11 移除`Intel AX210`，仅保留`BCM94360z4`。本次可以使用OCLP3.0打补丁，修复博通网卡问题。**本次更新，无线网卡支持Tahoe！**
   + 英特尔无线网卡可以采用修改网卡设备id的形式，欺骗OCLP打网卡补丁，之后正常使用。
 + 2025.10.23 区分`BCM94360z4`和`Intel AX210`网卡，`Intel AX210`在`Tahoe`可用 WIFI；精简Kexts，`BCM94360z4`移除蓝牙相关驱动
@@ -70,22 +74,26 @@
 
 
 ## 安装说明
-+ 正常安装或者升级到Tahoe，之后需要参考 https://bbs.pcbeta.com/viewthread-2058963-1-1.html 自行关闭文件保险箱然后通过OCLP 3.0打补丁
-+ OCLP 3.0测试版下载地址：https://nightly.link/lzhoang2801/OpenCore-Legacy-Patcher/workflows/build-app-wxpython/tahoe-patchset/OpenCore-Patcher.pkg.zip
++ 正常安装或者升级到Tahoe，之后需要参考 https://bbs.pcbeta.com/viewthread-2058963-1-1.html 自行关闭文件保险箱然后通过`OCLP-MOD 3.1.0`打补丁
++ 现在使用`OCLP-MOD 3.1.0`打补丁，需要启用`AMFIPass.kext`，然后增加参数`-amfipassbeta`，去掉参数`amfi=0x80`
+  + 如果之前使用了`OpenCore-Patcher 3.0测试版`，则先打开`OpenCore-Patcher`，在安装补丁那里，把补丁恢复。再用`OCLP-MOD 3.1.0`打补丁。
+  + `OpenCore-Patcher-Uninstaller.pkg`是卸载之前的`OpenCore-Patcher 3.0 测试版`的，要先恢复补丁再用这个完全卸载`OpenCore-Patcher 3.0 测试版`.
++ OCLP-MOD 3.1.0下载地址：https://github.com/laobamac/OCLP-Mod/releases/download/3.1.0/OCLP-Mod.pkg
 + KDK下载地址：
-  + 26.1对应KDK：https://gitapi.simplehac.top/https://github.com/dortania/KdkSupportPkg/releases/download/25B5062e/Kernel_Debug_Kit_26.1_build_25B5062e.dmg 对应OCLP需要下载的25B5
-  + 26.2RC对应KDK：https://github.com/dortania/KdkSupportPkg/releases/download/25C56/Kernel_Debug_Kit_26.2_25C56.dmg 对应OCLP需要下载的25C56
-  + 如果没有你需要的，你网络好的话，可以让OCLP自行下载；如果需要其他版本KDK，可以到 https://github.com/dortania/KdkSupportPkg/releases 查找
+  + 26.1 25B5对应KDK：https://github.com/dortania/KdkSupportPkg/releases/download/25B5062e/Kernel_Debug_Kit_26.1_build_25B5062e.dmg 对应 OCLP-MOD 需要下载的25B5
+  + 26.2 25C56对应KDK：https://github.com/dortania/KdkSupportPkg/releases/download/25C56/Kernel_Debug_Kit_26.2_25C56.dmg 对应 OCLP-MOD 需要下载的25C56
+  + 26.3 25D5对应KDK：https://github.com/dortania/KdkSupportPkg/releases/download/25D5087f/Kernel_Debug_Kit_26.3_build_25D5087f.dmg 对应 OCLP-MOD 需要下载的25D5
+  + 如果没有你需要的，你网络好的话，可以让 OCLP-MOD 自行下载；如果需要其他版本KDK，可以到 https://github.com/dortania/KdkSupportPkg/releases 查找
 
 
 ### 我的配置
 
-机型S210，i9 10980hk，64G，4K显示器（mini dp）+4K显示（hdmi 2.0），声卡为alc235（老板说是alc 233，但声卡id0x10ec0235即实际alc 235），网卡为BCM94360z4
+机型S210，i9 10980hk，64G，4K显示器（mini dp）+4K显示（hdmi 2.0），声卡为alc235（老板说是alc 233，但声卡id0x10ec0235即实际alc 235），网卡为Intel AX210
 
 
 
 ### 工作情况
-以下均基于Sequioa测试
+以下均基于Tahoe测试
 
 + DP、HDMI2.0（单DP、单HDMI、DP+HDMI）
 
@@ -93,9 +101,7 @@
 
 + 原生电源管理
 
-+ BCM94360Z4蓝牙免驱
-
-+ BCM94360Z4无线网卡通过OCLP打补丁后正常驱动
++ AX210无线网卡通过OCLP打补丁后正常驱动，隔空投送啥的是单向，仅能被投送
 
 + I219V（背面靠近双USB3.0的那个）
 
